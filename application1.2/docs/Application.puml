@@ -1,0 +1,73 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+class Application{
+    start(Stage)
+    main(String[])
+}
+
+class ApplicationController{
+    -newListName
+    -itemDescription
+    -dueDate
+    -itemName
+    -editSelected
+    -newEmptyListButtonPressed()
+    -saveSelectedListButtonPressed()
+    -editSelectedButtonPressed()
+    -viewAllButtonPressed()
+    -viewCompletedButtonPressed()
+    -viewIncompleteButtonPressed()
+    -loadBelowButtonPressed()
+    -deleteListButtonPressed()
+    -upperGrid
+    -lowerGrid
+    +initialize()
+}
+
+Application --o ApplicationController
+
+Class AddDeleteItem{
+    +AddDeleteItem(String, String, String)
+    +addItem():String[]
+    +removeItem()
+    +getComplete()
+    +getDue()
+    +getName()
+    +getDescription()
+}
+
+ApplicationController --o AddDeleteItem
+
+Class AddDeleteList{
+    +AddDeleteList()
+    +createList():List<String[]>
+    +blankInterface()
+}
+
+ApplicationController --o AddDeleteList
+
+Class FileIO{
+    +FileIO()
+    +filePrep():String
+    +saveFile()
+    +specifyFileLocation()
+    +loadList()
+}
+
+ApplicationController --o FileIO
+
+Class FormatList{
+    +FormatList()
+    +displayList()
+}
+
+ApplicationController --o FormatList
+
+Class ParseTyping{
+    +enforceDateFormat():boolean
+    +enforceTitleCharCount():boolean
+}
+
+ApplicationController --o ParseTyping
+
+@enduml
