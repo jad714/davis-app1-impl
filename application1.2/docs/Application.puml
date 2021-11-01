@@ -6,21 +6,20 @@ class Application{
 }
 
 class ApplicationController{
-    -newListName
     -itemDescription
     -dueDate
     -itemName
     -editSelected
     -newEmptyListButtonPressed()
-    -saveSelectedListButtonPressed()
+    -saveAsButtonPressed()
+    -saveButtonPressed()
     -editSelectedButtonPressed()
     -viewAllButtonPressed()
     -viewCompletedButtonPressed()
     -viewIncompleteButtonPressed()
-    -loadBelowButtonPressed()
+    -loadButtonPressed()
     -deleteListButtonPressed()
-    -upperGrid
-    -lowerGrid
+    -lowerTable()
     +initialize()
 }
 
@@ -38,14 +37,6 @@ Class AddDeleteItem{
 
 ApplicationController --o AddDeleteItem
 
-Class AddDeleteList{
-    +AddDeleteList()
-    +createList():List<String[]>
-    +blankInterface()
-}
-
-ApplicationController --o AddDeleteList
-
 Class FileIO{
     +FileIO()
     +filePrep():String
@@ -59,6 +50,7 @@ ApplicationController --o FileIO
 Class FormatList{
     +FormatList()
     +displayList()
+    +clearList()
 }
 
 ApplicationController --o FormatList
@@ -66,6 +58,7 @@ ApplicationController --o FormatList
 Class ParseTyping{
     +enforceDateFormat():boolean
     +enforceTitleCharCount():boolean
+    +isGregorian()
 }
 
 ApplicationController --o ParseTyping
