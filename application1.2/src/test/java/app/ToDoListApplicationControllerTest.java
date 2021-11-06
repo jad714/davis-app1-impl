@@ -1,5 +1,5 @@
 /*
- *  UCF COP3330 Fall 2021 Application Assignment 1 Solution
+ *  UCF COP3330 Fall 2021 ToDoListApplication Assignment 1 Solution
  *  Copyright 2021 Joshua Davis
  */
 
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ApplicationControllerTest {
+class ToDoListApplicationControllerTest {
 
     @Test
     void initialize() {

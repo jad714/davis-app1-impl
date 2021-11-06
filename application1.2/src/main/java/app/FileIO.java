@@ -1,39 +1,84 @@
 /*
- *  UCF COP3330 Fall 2021 Application Assignment 1 Solution
+ *  UCF COP3330 Fall 2021 ToDoListApplication Assignment 1 Solution
  *  Copyright 2021 Joshua Davis
  */
 
 package app;
 
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.*;
+import java.util.Scanner;
+
 public class FileIO {
-    // Declare instance variable (String) for the filename.
-    public FileIO(){
-        // Initialize filename String.
+
+    public String filePrep(ItemsList itemsList){
+        // Initialize the outputString to null output.
+        String outputString = "";
+        // Providing the list isn't empty, iterate over each element.
+        if(!itemsList.isListEmpty())
+        {
+            int itemCount = itemsList.getSize();
+            for(int i=0;i<itemCount;i++){
+                // Add the due date to each line of the output.
+                outputString = outputString.concat(itemsList.getItem(i).getDue());
+                outputString = outputString.concat(" ");
+                // Add the description to each line of the output (remove spaces and replace with "-").
+                outputString = outputString.concat(itemsList.getItem(i).getDescription().replace(" ", "-"));
+                outputString = outputString.concat(" ");
+                // Add the completion status to each line of the output.
+                outputString = outputString.concat(itemsList.getItem(i).getCompleted());
+                // Skip adding a newline to the last element (this would break the code).
+                if(i!=itemCount-1)
+                    outputString = outputString.concat("\n");
+            }
+        }
+        // This method should prepare the file's contents for writing as a single string
+        // for output into a document.
+        return outputString;
     }
 
-    public String filePrep(){
-        // Prepares, according to the Controller for the ListView's focus, a file composed of all of the lists' information and
-        // prepares it in a format that can be parsed by the FileReader.
-        // Dummy return below.
-        return "";
-    }
-
-    public boolean saveFile(){
-        // This is called by the controller for the "save" button to save the list to a .txt file.
-        // Creates the file (try/catch) using the parsed filename from the input text field (already passed to the object).
-        // If the file cannot be created, does NOT crash the program but returns instead. Error message will be supplied to user.
-        // Returns "false" if file unable to be created. Otherwise, returns "true".
-        // This method will currently return "false" to allow program to compile.
-        boolean temp = false;
+    public boolean saveFile(String content, File file){
+        try{
+            // Create a new instance of the PrintWriter Class to write the output file.
+            PrintWriter fileWriter = new PrintWriter(file);
+            // Print the content of the to-do list to said file.
+            fileWriter.println(content);
+            // Close the PrintWriter.
+            fileWriter.close();
+            return file.exists();
+        }
+        catch(IOException e)
+        {
+            // Catch the IOException (if anything went wrong with the FileChooser).
+            System.err.println("Unable to write file. Program terminating (REMOVE BEFORE FLIGHT).");
+            System.exit(0);
+        }
         return false;
     }
 
-    public void specifyFileLocation(){
-        // This method uses JavaFX logic to open the Windows Explorer function to allow the user to specify a filepath and filename.
-    }
-
-    public void loadList(){
-        // Loads the list highlighted in the Saved Lists ListView. Allow only for one file to be selected.
-        // Parse the file using logic specified here to convert it to lists in active memory for the application to utilize.
+    public void loadList(File file, ItemsList itemsList){
+        try{
+            Scanner fileScanner = new Scanner(file);
+            // Loops while there is another line in the file.
+            while(fileScanner.hasNextLine()){
+                // For each line, scan each string into appropriate variables.
+                String[] data = fileScanner.nextLine().split(" ");
+                String due = data[0];
+                String description = data[1];
+                String completed = data[2];
+                // Set up a new to-do list item according to what was read from the file.
+                Items newItem = new Items(due, description, completed);
+                // Add the item to the itemsList.
+                itemsList.addItem(newItem);
+            }
+            fileScanner.close();
+        }
+        catch(FileNotFoundException e){
+            // This absolutely should not happen.
+            System.err.println("The file was not found.");
+            System.exit(0);
+        }
     }
 }

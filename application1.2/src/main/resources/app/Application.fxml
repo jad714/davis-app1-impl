@@ -1,74 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <SplitPane dividerPositions="0.3" prefHeight="565.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ApplicationController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="563.0" prefWidth="210.0">
          <children>
-            <Button layoutX="63.0" layoutY="35.0" mnemonicParsing="false" text="Empty List" />
-            <Button layoutX="65.0" layoutY="124.0" mnemonicParsing="false" text="Save As..." />
-            <TextField layoutX="21.0" layoutY="327.0" />
-            <Label focusTraversable="false" layoutX="50.0" layoutY="281.0" text="New Item Options" />
-            <Separator layoutX="3.0" layoutY="271.0" prefHeight="4.0" prefWidth="195.0" />
-            <Label focusTraversable="false" layoutX="68.0" layoutY="309.0" text="Item Name" />
-            <Label focusTraversable="false" layoutX="71.0" layoutY="353.0" text="Due Date" />
-            <TextField layoutX="22.0" layoutY="371.0" />
-            <TextField layoutX="23.0" layoutY="415.0" />
-            <Label focusTraversable="false" layoutX="52.0" layoutY="397.0" text="Item Description" />
+            <Button fx:id="emptyList" layoutX="63.0" layoutY="14.0" mnemonicParsing="false" onAction="#emptyListButtonPressed" text="Empty List" />
+            <Button fx:id="saveAs" layoutX="65.0" layoutY="140.0" mnemonicParsing="false" onAction="#saveAsButtonPressed" text="Save As..." />
+            <Separator layoutX="5.0" layoutY="306.0" prefHeight="4.0" prefWidth="195.0" />
+            <Label focusTraversable="false" layoutX="76.0" layoutY="370.0" text="Due Date" />
+            <TextField layoutX="26.0" layoutY="344.0" promptText="Add description...." />
+            <Label focusTraversable="false" layoutX="59.0" layoutY="320.0" text="Item Description" />
             <Button layoutX="47.0" layoutY="448.0" mnemonicParsing="false" text="Add Item To List" />
-            <Separator layoutX="1.0" layoutY="212.0" prefWidth="200.0" />
-            <Label focusTraversable="false" layoutX="62.0" layoutY="214.0" text="View Options" />
-            <Button layoutX="13.0" layoutY="232.0" mnemonicParsing="false" text="Incomplete">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Button>
-            <Button layoutX="83.0" layoutY="232.0" mnemonicParsing="false" text="Complete">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Button>
-            <Button layoutX="147.0" layoutY="232.0" mnemonicParsing="false" text="All">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Button>
-            <Separator layoutX="-2.0" layoutY="100.0" prefWidth="200.0" />
-            <Button layoutX="77.0" layoutY="169.0" mnemonicParsing="false" text="Save" />
+            <Separator layoutX="-2.0" layoutY="196.0" prefWidth="200.0" />
+            <Label focusTraversable="false" layoutX="59.0" layoutY="200.0" text="View Options" />
+            <Separator layoutX="-2.0" layoutY="130.0" prefWidth="200.0" />
             <Separator layoutX="1.0" layoutY="506.0" prefWidth="200.0" />
-            <Button layoutX="71.0" layoutY="518.0" mnemonicParsing="false" text="Load List" />
+            <Button fx:id="loadList" layoutX="71.0" layoutY="518.0" mnemonicParsing="false" onAction="#loadButtonPressed" text="Load List" />
+            <RadioButton layoutX="60.0" layoutY="225.0" mnemonicParsing="false" selected="true" text="All">
+               <toggleGroup>
+                  <ToggleGroup fx:id="ViewOptionsGroup" />
+               </toggleGroup></RadioButton>
+            <RadioButton layoutX="60.0" layoutY="248.0" mnemonicParsing="false" text="Completed" toggleGroup="$ViewOptionsGroup" />
+            <RadioButton layoutX="60.0" layoutY="272.0" mnemonicParsing="false" text="Incomplete" toggleGroup="$ViewOptionsGroup" />
+            <DatePicker fx:id="dueDate" layoutX="14.0" layoutY="388.0" promptText="Select a date..." />
+            <Label fx:id="saveLabel" layoutX="5.0" layoutY="178.0" prefHeight="17.0" prefWidth="188.0" text="SaveAs" textFill="RED" visible="false" />
+            <Label fx:id="warningLabel" layoutX="5.0" layoutY="49.0" prefHeight="72.0" prefWidth="188.0" text="EmptyListWarning" visible="false" />
          </children>
       </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <ScrollPane layoutX="-1.0" layoutY="37.0" prefHeight="473.0" prefWidth="462.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="202.0">
-                     <children>
-                        <TableView editable="true" layoutX="-1.0" layoutY="-2.0" prefHeight="473.0" prefWidth="460.0" tableMenuButtonVisible="true">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
             <Label layoutX="203.0" layoutY="5.0" text="To Do List" />
-            <Button layoutX="309.0" layoutY="523.0" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="delete" layoutX="309.0" layoutY="523.0" mnemonicParsing="false" onAction="#deleteItemButtonPressed" text="Delete" />
             <Button layoutX="180.0" layoutY="523.0" mnemonicParsing="false" text="Unmark Complete" />
             <Button layoutX="67.0" layoutY="523.0" mnemonicParsing="false" text="Mark Complete" />
+            <TableView fx:id="table" editable="true" layoutY="-2.0" prefHeight="517.0" prefWidth="460.0">
+              <columns>
+                <TableColumn prefWidth="155.59999692440033" sortable="false" text="Description" />
+                <TableColumn prefWidth="156.800048828125" text="Due Date" />
+                  <TableColumn prefWidth="148.39990234375" sortable="false" text="Completed" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
   </items>

@@ -30,5 +30,5 @@ run {
 }
 
 application {
-    mainClass = "app.Application"
+    mainClass = "app.ToDoListApplication"
 }
