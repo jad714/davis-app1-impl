@@ -28,6 +28,7 @@ class ItemsListTest {
         itemsListFullTest.deleteList();
         // Assert that it is, in fact, empty.
         assertTrue(itemsListFullTest.isListEmpty());
+        assertEquals(0,itemsListFullTest.getSize());
     }
 
     @Test

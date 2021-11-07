@@ -20,36 +20,38 @@
             <Button fx:id="saveAs" layoutX="65.0" layoutY="140.0" mnemonicParsing="false" onAction="#saveAsButtonPressed" text="Save As..." />
             <Separator layoutX="5.0" layoutY="306.0" prefHeight="4.0" prefWidth="195.0" />
             <Label focusTraversable="false" layoutX="76.0" layoutY="370.0" text="Due Date" />
-            <TextField layoutX="26.0" layoutY="344.0" promptText="Add description...." />
+            <TextField fx:id="itemDescription" layoutX="26.0" layoutY="344.0" promptText="Add description...." />
             <Label focusTraversable="false" layoutX="59.0" layoutY="320.0" text="Item Description" />
-            <Button layoutX="47.0" layoutY="448.0" mnemonicParsing="false" text="Add Item To List" />
+            <Button fx:id="addItemToList" layoutX="46.0" layoutY="453.0" mnemonicParsing="false" onAction="#addItemToListPressed" text="Add Item To List" />
             <Separator layoutX="-2.0" layoutY="196.0" prefWidth="200.0" />
             <Label focusTraversable="false" layoutX="59.0" layoutY="200.0" text="View Options" />
             <Separator layoutX="-2.0" layoutY="130.0" prefWidth="200.0" />
-            <Separator layoutX="1.0" layoutY="506.0" prefWidth="200.0" />
-            <Button fx:id="loadList" layoutX="71.0" layoutY="518.0" mnemonicParsing="false" onAction="#loadButtonPressed" text="Load List" />
-            <RadioButton layoutX="60.0" layoutY="225.0" mnemonicParsing="false" selected="true" text="All">
+            <Separator layoutX="1.0" layoutY="519.0" prefWidth="200.0" />
+            <Button fx:id="loadList" layoutX="69.0" layoutY="530.0" mnemonicParsing="false" onAction="#loadButtonPressed" text="Load List" />
+            <RadioButton fx:id="all" layoutX="60.0" layoutY="225.0" mnemonicParsing="false" selected="true" text="All">
                <toggleGroup>
-                  <ToggleGroup fx:id="ViewOptionsGroup" />
+                  <ToggleGroup fx:id="viewGroup" />
                </toggleGroup></RadioButton>
-            <RadioButton layoutX="60.0" layoutY="248.0" mnemonicParsing="false" text="Completed" toggleGroup="$ViewOptionsGroup" />
-            <RadioButton layoutX="60.0" layoutY="272.0" mnemonicParsing="false" text="Incomplete" toggleGroup="$ViewOptionsGroup" />
+            <RadioButton fx:id="completed" layoutX="60.0" layoutY="248.0" mnemonicParsing="false" text="Completed" toggleGroup="$viewGroup" />
+            <RadioButton fx:id="incomplete" layoutX="60.0" layoutY="272.0" mnemonicParsing="false" text="Incomplete" toggleGroup="$viewGroup" />
             <DatePicker fx:id="dueDate" layoutX="14.0" layoutY="388.0" promptText="Select a date..." />
             <Label fx:id="saveLabel" layoutX="5.0" layoutY="178.0" prefHeight="17.0" prefWidth="188.0" text="SaveAs" textFill="RED" visible="false" />
             <Label fx:id="warningLabel" layoutX="5.0" layoutY="49.0" prefHeight="72.0" prefWidth="188.0" text="EmptyListWarning" visible="false" />
+            <Label fx:id="descWarningLabel" layoutX="10.0" layoutY="422.0" prefHeight="17.0" prefWidth="182.0" text="DescriptionWarningLabel" textFill="RED" visible="false" />
+            <Button fx:id="editSelectedItem" layoutX="30.0" layoutY="487.0" mnemonicParsing="false" onAction="#editSelectedItemPressed" prefHeight="25.0" prefWidth="134.0" text="Edit Selected Item" />
          </children>
       </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             <Label layoutX="203.0" layoutY="5.0" text="To Do List" />
             <Button fx:id="delete" layoutX="309.0" layoutY="523.0" mnemonicParsing="false" onAction="#deleteItemButtonPressed" text="Delete" />
-            <Button layoutX="180.0" layoutY="523.0" mnemonicParsing="false" text="Unmark Complete" />
-            <Button layoutX="67.0" layoutY="523.0" mnemonicParsing="false" text="Mark Complete" />
+            <Button fx:id="unMarkComplete" layoutX="180.0" layoutY="523.0" mnemonicParsing="false" onAction="#markIncompleteButtonPressed" text="Unmark Complete" />
+            <Button fx:id="markComplete" layoutX="67.0" layoutY="523.0" mnemonicParsing="false" onAction="#markCompleteButtonPressed" text="Mark Complete" />
             <TableView fx:id="table" editable="true" layoutY="-2.0" prefHeight="517.0" prefWidth="460.0">
               <columns>
-                <TableColumn prefWidth="155.59999692440033" sortable="false" text="Description" />
-                <TableColumn prefWidth="156.800048828125" text="Due Date" />
-                  <TableColumn prefWidth="148.39990234375" sortable="false" text="Completed" />
+                <TableColumn fx:id="dueColumn" editable="false" prefWidth="155.59999692440033" text="Due Date" />
+                <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="156.800048828125" sortable="false" text="Description" />
+                  <TableColumn fx:id="completedColumn" editable="false" prefWidth="148.39990234375" sortable="false" text="Completed" />
               </columns>
             </TableView>
          </children>

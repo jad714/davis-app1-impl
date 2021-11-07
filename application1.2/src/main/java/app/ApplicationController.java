@@ -5,17 +5,22 @@
 
 package app;
 
-import javafx.collections.ObservableList;
+
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+
 
 import static javafx.geometry.Pos.CENTER;
 
@@ -27,9 +32,17 @@ public class ApplicationController {
     // and text boxes.  This is by design, so that they can be activated
     // when there is something for them to operate on.
     private int pressCount = 0;
-    private final String red = "#ff0000";
-    private final String green = "#00ff08";
+    private static final String RED = "#ff0000";
+    private static final String GREEN = "#00ff08";
+    Comparator<Items> itemComparator = Comparator.comparing(Items::getDue);
     ItemsList itemsList = new ItemsList();
+    FilteredList<Items> allItems = new FilteredList<>(itemsList.getList(), p->true);
+    SortedList<Items> sortedList = new SortedList<>(allItems);
+
+    @FXML
+    private Button editSelectedItem;
+    @FXML
+    private Button addItemToList;
     @FXML
     private Button emptyList;
     @FXML
@@ -43,17 +56,79 @@ public class ApplicationController {
     @FXML
     private Button delete;
     @FXML
-    private TextField itemDescription;
+    private RadioButton all;
+    @FXML
+    private RadioButton completed;
+    @FXML
+    private RadioButton incomplete;
+    @FXML
+    private ToggleGroup viewGroup;
+    @FXML
+    private TextField itemDescription = new TextField();
     @FXML
     private DatePicker dueDate;
     @FXML
     private TextField itemName;
     @FXML
-    private TableView<ObservableList<Items>> table;
+    private TableView<Items> table = new TableView<>();
     @FXML
     private Label saveLabel;
     @FXML
     private Label warningLabel;
+    @FXML
+    private Label descWarningLabel;
+    @FXML
+    private TableColumn<Items, String> dueColumn;
+    @FXML
+    private TableColumn<Items, String> descriptionColumn;
+    @FXML
+    private TableColumn<Items, String> completedColumn;
+
+    private void rejectInput(String output){
+        // Applies the relevant text to the warning label.
+        descWarningLabel.setText(output);
+        // Changes the text color to red.
+        descWarningLabel.setTextFill(Paint.valueOf(RED));
+        // Wraps the text for readability and centered look.
+        descWarningLabel.setWrapText(true);
+        // Aligns the text to center for cleaner appearance.
+        descWarningLabel.setAlignment(CENTER);
+        // Sets the font to size that fits, but is still readable.
+        descWarningLabel.setFont(Font.font(9));
+        // Makes the invisible label appear.
+        descWarningLabel.setVisible(true);
+    }
+
+    @FXML
+    private void addItemToListPressed(ActionEvent event){
+        // Consumes the event.
+        event.consume();
+        // Declare inputItemDesc variable.
+        String inputItemDesc;
+        // Instantiate ParseTyping object.
+        ParseTyping typeCheck = new ParseTyping();
+        // The item description becomes whatever was typed in the input box.
+        inputItemDesc = itemDescription.getText();
+        // Handle potential error cases (including empty date field and empty description box).
+        if(dueDate.getValue()==null){
+            this.rejectInput("Please select a date!");
+            return;
+        }
+        if(!typeCheck.validateDescription(inputItemDesc)){
+            this.rejectInput("Description is required!");
+            return;
+        }
+        // Create the new item associated, and append it to the ItemsList.
+        Items newItem = typeCheck.createItem(dueDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), itemDescription.getText(), "No");
+        itemsList.addItem(newItem);
+        // Give positive feedback to the user confirming the item was added.
+        descWarningLabel.setText("Item added!");
+        descWarningLabel.setTextFill(Paint.valueOf(GREEN));
+        descWarningLabel.setWrapText(true);
+        descWarningLabel.setAlignment(CENTER);
+        descWarningLabel.setVisible(true);
+        itemDescription.clear();
+    }
 
     @FXML
     private void saveAsButtonPressed(ActionEvent event){
@@ -61,7 +136,7 @@ public class ApplicationController {
         // Abort if the list is empty.
         if(itemsList.isListEmpty()){
             saveLabel.setAlignment(CENTER);
-            saveLabel.setTextFill(Paint.valueOf(red));
+            saveLabel.setTextFill(Paint.valueOf(RED));
             saveLabel.setVisible(true);
             saveLabel.setText("Cannot save an empty list!");
             return;
@@ -83,9 +158,10 @@ public class ApplicationController {
         if(file!=null){
             save.saveFile(content, file);
         }
+        // Provide positive user feedback letting them know the file was saved successfully.
         saveLabel.setAlignment(CENTER);
         saveLabel.setVisible(true);
-        saveLabel.setTextFill(Paint.valueOf(green));
+        saveLabel.setTextFill(Paint.valueOf(GREEN));
         saveLabel.setText("File Saved!");
     }
 
@@ -97,44 +173,92 @@ public class ApplicationController {
         event.consume();
         pressCount++;
         if(pressCount<2){
-            warningLabel.setTextFill(Paint.valueOf(red));
+            warningLabel.setTextFill(Paint.valueOf(RED));
             warningLabel.setAlignment(CENTER);
             warningLabel.setWrapText(true);
-            warningLabel.setFont(Font.font(10));
+            warningLabel.setFont(Font.font(9));
             warningLabel.setText("WARNING! This will delete all items associated with your to-do list. If you're sure this is" +
                     " what you want, please click the button above again.");
             warningLabel.setVisible(true);
             return;
         }
+        // An empty list can't be deleted, so only actually delete if it's possible to do so.
         if(!itemsList.isListEmpty()){
             itemsList.deleteList();
-            warningLabel.setTextFill(Paint.valueOf(green));
+            warningLabel.setTextFill(Paint.valueOf(GREEN));
             warningLabel.setAlignment(CENTER);
             warningLabel.setText("List deleted!");
-            warningLabel.setVisible(true);
         }
         else{
-            warningLabel.setTextFill(Paint.valueOf(red));
+            warningLabel.setTextFill(Paint.valueOf(RED));
             warningLabel.setAlignment(CENTER);
             warningLabel.setText("Cannot delete an empty list!");
-            warningLabel.setVisible(true);
         }
+        warningLabel.setVisible(true);
         pressCount = 0;
     }
 
     @FXML
-    private void viewAllButtonPressed(){
-        // Populates all items in the list view.
+    private void editSelectedItemPressed(ActionEvent event){
+        event.consume();
+        ParseTyping typeCheck = new ParseTyping();
+        if(table.getSelectionModel().isEmpty()){
+            rejectInput("Nothing selected!");
+            return;
+        }
+        if(itemsList.isListEmpty()){
+            rejectInput("List cannot be empty!");
+        }
+        if(!typeCheck.validateDescription(itemDescription.getText())){
+            this.rejectInput("Description is required!");
+            return;
+        }
+        int index = table.getSelectionModel().getSelectedIndex();
+        Items item = new Items("", "", table.getSelectionModel().getSelectedItem().getCompleted());
+        item.setDue(dueDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        item.setDescription(itemDescription.getText());
+        itemsList.setItem(index, item);
     }
 
     @FXML
-    private void viewCompletedButtonPressed(){
-        // Populates all items that have been completed ONLY in the list view.
+    private void deleteItemButtonPressed(ActionEvent event){
+        event.consume();
+        // Just ignore button press if list is empty, or if nothing selected.
+        if(table.selectionModelProperty().getValue().isEmpty())
+            return;
+        if(itemsList.isListEmpty()){
+            return;
+        }
+        // Otherwise, delete the item at the selected point.
+        int index = table.getSelectionModel().getSelectedIndex();
+        itemsList.removeItem(index);
     }
 
     @FXML
-    private void viewIncompleteButtonPressed(){
-        // Populates all items that have NOT been completed in the list view.
+    private void markCompleteButtonPressed(ActionEvent event){
+        // Mark selected item complete if marked incomplete. Otherwise ignore press.
+        event.consume();
+        if(table.selectionModelProperty().getValue().isEmpty())
+            return;
+        int index = table.selectionModelProperty().getValue().getSelectedIndex();
+        Items editedItem = new Items("", "", "Yes");
+        editedItem.setDue(table.getSelectionModel().getSelectedItem().getDue());
+        editedItem.setDescription(table.getSelectionModel().getSelectedItem().getDescription());
+        editedItem.markComplete();
+        itemsList.setItem(index, editedItem);
+    }
+
+    @FXML
+    private void markIncompleteButtonPressed(ActionEvent event){
+        // Mark selected item incomplete if marked incomplete. Otherwise ignore press.
+        event.consume();
+        if(table.selectionModelProperty().getValue().isEmpty())
+            return;
+        int index = table.selectionModelProperty().getValue().getSelectedIndex();
+        Items editedItem = new Items("", "", "No");
+        editedItem.setDue(table.getSelectionModel().getSelectedItem().getDue());
+        editedItem.setDescription(table.getSelectionModel().getSelectedItem().getDescription());
+        itemsList.setItem(index, editedItem);
     }
 
     @FXML
@@ -159,33 +283,28 @@ public class ApplicationController {
         }
     }
 
-    @FXML
-    private void deleteItemButtonPressed(ActionEvent event){
-        event.consume();
-        /* Retrieve the index number from the table here. */
-        int index = 0; // default (REMOVE BEFORE FLIGHT).
-        // delete the item at that index.
-        try{
-            itemsList.removeItem(index);
-        }
-        catch(NullPointerException e){
-            // Only prints error to console. User should quickly
-            // realize that they've tried to delete from an empty list visually.
-            System.err.println("List is empty.");
-        }
-    }
-
-    @FXML
-    private void tableViewBehavior(){
-        // Specifies the behavior of the lower grid (active list), which populates
-        // a grid displaying each of the Strings (and one boolean value) that will relate
-        // to the active list in question. Highlighted items can be deleted, thier contents edited,
-        // (either from within the window or using the specified buttons, this remains to be seen),
-        // and new items can be added using the "New Item Options" button and fields on the side.
-    }
-
-    public void initialize(){
+    public void initialize() {
         // I believe everything in here will be initialized to null values in my case,
         // but since I'm not sure, I will leave this until implementation.
+        dueColumn.setCellValueFactory(new PropertyValueFactory<>("due"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        completedColumn.setCellValueFactory(new PropertyValueFactory<>("completed"));
+        table.setPlaceholder(new Label("No items to display...add something!"));
+        table.setItems(sortedList);
+
+        allItems.setPredicate(items->{
+            if(all.isSelected()){
+                return true;
+            }
+            else if(completed.isSelected()){
+                return items.getCompleted().equals("Yes");
+            }
+            else if(incomplete.isSelected()){
+                return items.getCompleted().equals("No");
+            }
+            else{
+                return false;
+            }
+        });
     }
 }

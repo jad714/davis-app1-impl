@@ -21,6 +21,7 @@ public class FileIO {
         {
             int itemCount = itemsList.getSize();
             for(int i=0;i<itemCount;i++){
+                System.out.println("Index number = " + i + ".");
                 // Add the due date to each line of the output.
                 outputString = outputString.concat(itemsList.getItem(i).getDue());
                 outputString = outputString.concat(" ");
@@ -66,7 +67,7 @@ public class FileIO {
                 // For each line, scan each string into appropriate variables.
                 String[] data = fileScanner.nextLine().split(" ");
                 String due = data[0];
-                String description = data[1];
+                String description = data[1].replaceAll("-", " ");
                 String completed = data[2];
                 // Set up a new to-do list item according to what was read from the file.
                 Items newItem = new Items(due, description, completed);

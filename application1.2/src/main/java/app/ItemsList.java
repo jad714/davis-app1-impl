@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ItemsList {
     private ObservableList<Items> items = FXCollections.observableArrayList();
@@ -30,11 +31,16 @@ public class ItemsList {
     public void deleteList(){
         // Clears the entire list (a warning should appear to user that they should save the list first).
         items.clear();
+        size = 0;
     }
 
     public Items getItem(int index) {
         // Gets an item (for display or edit).
         return items.get(index);
+    }
+
+    public void setItem(int index, Items item){
+        items.set(index, item);
     }
 
     public int getSize(){
@@ -43,5 +49,9 @@ public class ItemsList {
 
     public boolean isListEmpty(){
         return items.isEmpty();
+    }
+
+    public ObservableList<Items> getList(){
+        return items;
     }
 }
