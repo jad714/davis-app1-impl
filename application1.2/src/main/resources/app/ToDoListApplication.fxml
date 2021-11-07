@@ -19,24 +19,24 @@
             <Button fx:id="emptyList" layoutX="63.0" layoutY="14.0" mnemonicParsing="false" onAction="#emptyListButtonPressed" text="Empty List" />
             <Button fx:id="saveAs" layoutX="65.0" layoutY="140.0" mnemonicParsing="false" onAction="#saveAsButtonPressed" text="Save As..." />
             <Separator layoutX="5.0" layoutY="306.0" prefHeight="4.0" prefWidth="195.0" />
-            <Label focusTraversable="false" layoutX="76.0" layoutY="370.0" text="Due Date" />
-            <TextField fx:id="itemDescription" layoutX="26.0" layoutY="344.0" promptText="Add description...." />
-            <Label focusTraversable="false" layoutX="59.0" layoutY="320.0" text="Item Description" />
+            <Label focusTraversable="false" layoutX="74.0" layoutY="360.0" text="Due Date" />
+            <TextField fx:id="itemDescription" layoutX="26.0" layoutY="327.0" promptText="Add description...." />
+            <Label focusTraversable="false" layoutX="56.0" layoutY="310.0" text="Item Description" />
             <Button fx:id="addItemToList" layoutX="46.0" layoutY="453.0" mnemonicParsing="false" onAction="#addItemToListPressed" text="Add Item To List" />
             <Separator layoutX="-2.0" layoutY="196.0" prefWidth="200.0" />
             <Label focusTraversable="false" layoutX="59.0" layoutY="200.0" text="View Options" />
             <Separator layoutX="-2.0" layoutY="130.0" prefWidth="200.0" />
             <Separator layoutX="1.0" layoutY="519.0" prefWidth="200.0" />
             <Button fx:id="loadList" layoutX="69.0" layoutY="530.0" mnemonicParsing="false" onAction="#loadButtonPressed" text="Load List" />
-            <RadioButton fx:id="all" layoutX="60.0" layoutY="225.0" mnemonicParsing="false" selected="true" text="All">
+            <RadioButton fx:id="all" layoutX="60.0" layoutY="225.0" mnemonicParsing="false" onAction="#radioButtons" selected="true" text="All">
                <toggleGroup>
                   <ToggleGroup fx:id="viewGroup" />
                </toggleGroup></RadioButton>
-            <RadioButton fx:id="completed" layoutX="60.0" layoutY="248.0" mnemonicParsing="false" text="Completed" toggleGroup="$viewGroup" />
-            <RadioButton fx:id="incomplete" layoutX="60.0" layoutY="272.0" mnemonicParsing="false" text="Incomplete" toggleGroup="$viewGroup" />
-            <DatePicker fx:id="dueDate" layoutX="14.0" layoutY="388.0" promptText="Select a date..." />
+            <RadioButton fx:id="completed" layoutX="60.0" layoutY="248.0" mnemonicParsing="false" onAction="#radioButtons" text="Completed" toggleGroup="$viewGroup" />
+            <RadioButton fx:id="incomplete" layoutX="60.0" layoutY="272.0" mnemonicParsing="false" onAction="#radioButtons" text="Incomplete" toggleGroup="$viewGroup" />
+            <DatePicker fx:id="dueDate" layoutX="13.0" layoutY="377.0" promptText="Select a date..." />
             <Label fx:id="saveLabel" layoutX="5.0" layoutY="178.0" prefHeight="17.0" prefWidth="188.0" text="SaveAs" textFill="RED" visible="false" />
-            <Label fx:id="warningLabel" layoutX="5.0" layoutY="49.0" prefHeight="72.0" prefWidth="188.0" text="EmptyListWarning" visible="false" />
+            <Label fx:id="emptyListWarningLabel" layoutX="5.0" layoutY="49.0" prefHeight="72.0" prefWidth="188.0" text="EmptyListWarning" visible="false" />
             <Label fx:id="descWarningLabel" layoutX="10.0" layoutY="422.0" prefHeight="17.0" prefWidth="182.0" text="DescriptionWarningLabel" textFill="RED" visible="false" />
             <Button fx:id="editSelectedItem" layoutX="30.0" layoutY="487.0" mnemonicParsing="false" onAction="#editSelectedItemPressed" prefHeight="25.0" prefWidth="134.0" text="Edit Selected Item" />
          </children>

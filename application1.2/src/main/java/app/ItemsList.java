@@ -3,11 +3,8 @@ package app;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-
 public class ItemsList {
-    private ObservableList<Items> items = FXCollections.observableArrayList();
+    private final ObservableList<Items> items = FXCollections.observableArrayList();
     private int size;
     public ItemsList(){
         this.size = 0;

@@ -17,7 +17,7 @@ public class ToDoListApplication extends Application {
 
     @Override
     public void start(Stage initStage) throws Exception{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Application.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ToDoListApplication.fxml")));
         Scene myScene = new Scene(root);
         initStage.setTitle("ToDo List Manager");
         initStage.setScene(myScene);

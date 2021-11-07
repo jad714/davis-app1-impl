@@ -5,9 +5,6 @@
 
 package app;
 
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
 import java.io.*;
 import java.util.Scanner;
 
@@ -67,7 +64,7 @@ public class FileIO {
                 // For each line, scan each string into appropriate variables.
                 String[] data = fileScanner.nextLine().split(" ");
                 String due = data[0];
-                String description = data[1].replaceAll("-", " ");
+                String description = data[1].replace("-", " ");
                 String completed = data[2];
                 // Set up a new to-do list item according to what was read from the file.
                 Items newItem = new Items(due, description, completed);

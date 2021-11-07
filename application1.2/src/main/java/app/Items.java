@@ -9,7 +9,7 @@ public class Items {
 
     private String due;
     private String description;
-    private String completed;
+    private final String completed;
 
     public Items(String due, String description, String completed){
         this.due = due;
@@ -23,14 +23,6 @@ public class Items {
 
     public void setDescription(String edit){
         this.description = edit;
-    }
-
-    public void markComplete(){
-        this.completed = "Yes";
-    }
-
-    public void markIncomplete(){
-        this.completed = "No";
     }
 
     public String getDue(){
