@@ -1,66 +1,55 @@
 @startuml
 'https://plantuml.com/sequence-diagram
-class Application{
+class ToDoListApplication{
     start(Stage)
     main(String[])
 }
 
-class ApplicationController{
-    -itemDescription
-    -dueDate
-    -itemName
-    -editSelected
-    -newEmptyListButtonPressed()
-    -saveAsButtonPressed()
-    -saveButtonPressed()
-    -editSelectedButtonPressed()
-    -viewAllButtonPressed()
-    -viewCompletedButtonPressed()
-    -viewIncompleteButtonPressed()
-    -loadButtonPressed()
-    -deleteListButtonPressed()
-    -lowerTable()
+class ToDoListApplicationController{
     +initialize()
 }
+ToDoListApplication --o ToDoListApplicationController
 
-Application --o ApplicationController
-
-Class AddDeleteItem{
-    +AddDeleteItem(String, String, String)
-    +addItem():String[]
-    +removeItem()
-    +getComplete()
-    +getDue()
-    +getName()
-    +getDescription()
-}
-
-ApplicationController --o AddDeleteItem
-
-Class FileIO{
-    +FileIO()
-    +filePrep():String
-    +saveFile()
-    +specifyFileLocation()
+class FileIO{
+    +filePrep(ItemsList):String
+    +saveFile():boolean
     +loadList()
 }
 
-ApplicationController --o FileIO
+ToDoListApplicationController --o FileIO
 
-Class FormatList{
-    +FormatList()
-    +displayList()
-    +clearList()
+class Items{
+    +Items(String, String, String)
+    -due
+    -description
+    -completed
+    +setDue(String)
+    +setDescription(String)
+    +getDue():String
+    +getDescription():String
+    +getCompleted():String
 }
 
-ApplicationController --o FormatList
+ToDoListApplicationController --o Items
 
-Class ParseTyping{
-    +enforceDateFormat():boolean
-    +enforceTitleCharCount():boolean
-    +isGregorian()
+class ParseTyping{
+    +validateDescription(String):boolean
 }
 
-ApplicationController --o ParseTyping
+ToDoListApplicationController --o ParseTyping
+
+class ItemsList{
+    +ItemsList()
+    +addItem(Items)
+    +removeItem(int)
+    +deleteList()
+    +getItem(int):Items
+    +setItem(int, Item)
+    +getSize():int
+    +isListEmpty():boolean
+    +getList():ObservableList<Items>
+}
+
+ToDoListApplicationController --o ItemsList
 
 @enduml

@@ -18,12 +18,11 @@ public class FileIO {
         {
             int itemCount = itemsList.getSize();
             for(int i=0;i<itemCount;i++){
-                System.out.println("Index number = " + i + ".");
                 // Add the due date to each line of the output.
                 outputString = outputString.concat(itemsList.getItem(i).getDue());
                 outputString = outputString.concat(" ");
                 // Add the description to each line of the output (remove spaces and replace with "-").
-                outputString = outputString.concat(itemsList.getItem(i).getDescription().replace(" ", "-"));
+                outputString = outputString.concat(itemsList.getItem(i).getDescription().replace(" ", "_"));
                 outputString = outputString.concat(" ");
                 // Add the completion status to each line of the output.
                 outputString = outputString.concat(itemsList.getItem(i).getCompleted());
@@ -50,7 +49,7 @@ public class FileIO {
         catch(IOException e)
         {
             // Catch the IOException (if anything went wrong with the FileChooser).
-            System.err.println("Unable to write file. Program terminating (REMOVE BEFORE FLIGHT).");
+            System.err.println("FATAL ERROR: Unable to write file.");
             System.exit(0);
         }
         return false;
@@ -64,7 +63,7 @@ public class FileIO {
                 // For each line, scan each string into appropriate variables.
                 String[] data = fileScanner.nextLine().split(" ");
                 String due = data[0];
-                String description = data[1].replace("-", " ");
+                String description = data[1].replace("_", " ");
                 String completed = data[2];
                 // Set up a new to-do list item according to what was read from the file.
                 Items newItem = new Items(due, description, completed);

@@ -60,7 +60,7 @@ class FileIOTest {
         // Instantiate new test object for FileIO Class.
         FileIO fileIOTest = new FileIO();
         // Create the output string for comparison.
-        String outputStringTest = "1111-01-01 test-test-test-test No\n2222-02-02 test-test-test Yes";
+        String outputStringTest = "1111-01-01 test_test_test_test No\n2222-02-02 test_test_test Yes";
         // Instantiate new object of ItemsList.
         ItemsList itemsListTest = new ItemsList();
         // Create two test items and add them to the test list..
@@ -101,7 +101,7 @@ class FileIOTest {
         // Create a new Items list for testing.
         ItemsList itemsListTestCompare = new ItemsList();
         // Create a new Item to store the item listed on the file created by the above method.
-        Items itemTest = new Items("2021-12-31", "test_item", "Yes");
+        Items itemTest = new Items("2021-12-31", "test item", "Yes");
         // Add the item to the test list.
         itemsListTestCompare.addItem(itemTest);
         // Call the (void) method to load the created test list.

@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 import static javafx.geometry.Pos.CENTER;
 import static javafx.scene.control.TableColumn.SortType.DESCENDING;
 
-public class ApplicationController {
+public class ToDoListApplicationController {
     // Declare and initialize a few commonly used controls and commonly used values.
 
     private int pressCount = 0;
