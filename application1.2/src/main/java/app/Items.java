@@ -7,15 +7,18 @@ package app;
 
 public class Items {
 
+    // Declare instance fields.
     private String due;
     private String description;
     private final String completed;
 
     public Items(String due, String description, String completed){
+        // Initialize instance fields.
         this.due = due;
         this.description = description;
         this.completed = completed;
     }
+    // Getters and setters below, nothing interesting.
 
     public void setDue(String edit){
         this.due = edit;
